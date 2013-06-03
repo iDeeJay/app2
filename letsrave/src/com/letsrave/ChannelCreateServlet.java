@@ -43,10 +43,6 @@ public class ChannelCreateServlet extends HttpServlet {
 		}
 		log.info(userType);
 
-		String channel_key = userID+"#"+eventID;
-		String token = channelService.createChannel(channel_key);
-		log.info(token);
-
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		Key eventKey = KeyFactory.createKey("Event", eventID);
@@ -65,6 +61,10 @@ public class ChannelCreateServlet extends HttpServlet {
 				return;
 			}
 		}
+
+		String channel_key = userID+"#"+eventID;
+		String token = channelService.createChannel(channel_key);
+		log.info(token);
 
 		user.setProperty("channel_key", channel_key);
 		datastore.put(user);
