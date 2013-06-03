@@ -51,7 +51,7 @@ public class UpdatePlaylistServlet extends HttpServlet {
 			party.setProperty("json", new Text(playlistJSON));
 			datastore.put(party);
 		} catch (EntityNotFoundException e) {
-			resp.getWriter().println("party should be first created");
+			resp.getWriter().println("ERR party should be first created");
 		}
 		
 		//Now send the playlist to partygoers

@@ -45,7 +45,7 @@ public class PartyCreateServlet extends HttpServlet {
 		try {
 			expires = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH).parse(expiresStr);
 		} catch (ParseException e1) {
-			resp.getWriter().println("invalid date format");
+			resp.getWriter().println("ERR invalid date format");
 			return;
 		}
 
@@ -56,7 +56,7 @@ public class PartyCreateServlet extends HttpServlet {
 		Entity party;
 		try {
 			party = datastore.get(eventKey);
-			resp.getWriter().println("party is already created");
+			resp.getWriter().println("ERR party is already created");
 		} catch (EntityNotFoundException e) {
 			//create party and assign thrower
 			party = new Entity(eventKey);

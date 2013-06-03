@@ -55,13 +55,12 @@ public class VoteServlet extends HttpServlet {
 		try {
 			thrower = datastore.prepare(new Query("Thrower", eventKey)).asSingleEntity();
 		} catch (TooManyResultsException e) {
-			log.warning("A party can have only one thrower");
+			resp.getWriter().println("ERR A party can have only one thrower");
 			return;
 		}
 		
 		if(thrower == null){
-			log.info("No thrower for a party, ignore vote");
-			resp.getWriter().println("ERR No thrower for a party, ignore vote");
+			resp.getWriter().println("ERR No thrower for a party, party wans't created, ignore vote");
 			return;
 		}
 		

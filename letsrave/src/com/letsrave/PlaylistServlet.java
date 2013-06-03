@@ -34,7 +34,7 @@ public class PlaylistServlet extends HttpServlet {
 			Text json = (Text) party.getProperty("json");
 			resp.getWriter().print( json.getValue() );
 		} catch (EntityNotFoundException e) {
-			resp.getWriter().println("party should be first created");
+			resp.getWriter().println("ERR party should be first created");
 		}
 	}
 }

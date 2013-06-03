@@ -57,7 +57,7 @@ public class ChannelCreateServlet extends HttpServlet {
 				user = new Entity(userFullKey);
 				user.setProperty("userID", userID);
 			}else {
-				resp.getWriter().print("no thrower, wrong order first partyCreate should be called which would create a thrower");
+				resp.getWriter().print("ERR no thrower, wrong order first partyCreate should be called which would create a thrower");
 				return;
 			}
 		}

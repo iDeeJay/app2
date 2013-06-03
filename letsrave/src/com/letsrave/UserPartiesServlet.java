@@ -38,11 +38,6 @@ public class UserPartiesServlet extends HttpServlet {
 		Query query = new Query(userType).setFilter(filter);
 		List<Entity> goerAtParties = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(Constants.goerAtMaxParties));
 		
-		if(goerAtParties.isEmpty()){
-			resp.getWriter().print("NOTHING");
-			return;
-		}
-		
 		for(Entity goerAtParty : goerAtParties){
 			String eventID = goerAtParty.getParent().getName();
 			resp.getWriter().print(eventID+",");
