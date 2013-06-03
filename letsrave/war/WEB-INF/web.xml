@@ -18,17 +18,55 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-class>com.letsrave.ChannelCreateServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>Channel</servlet-name>
-		<servlet-class>com.letsrave.ChannelServlet</servlet-class>
+		<servlet-name>Vote</servlet-name>
+		<servlet-class>com.letsrave.VoteServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>UserParties</servlet-name>
+		<servlet-class>com.letsrave.UserPartiesServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UpadatePlaylist</servlet-name>
+		<servlet-class>com.letsrave.UpdatePlaylistServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Playlist</servlet-name>
+		<servlet-class>com.letsrave.PlaylistServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>PartyCreate</servlet-name>
+		<servlet-class>com.letsrave.PartyCreateServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>PartyCreate</servlet-name>
+		<url-pattern>/party_create</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Playlist</servlet-name>
+		<url-pattern>/playlist</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UpadatePlaylist</servlet-name>
+		<url-pattern>/update_playlist</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UserParties</servlet-name>
+		<url-pattern>/user_parties</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Vote</servlet-name>
+		<url-pattern>/vote</url-pattern>
+	</servlet-mapping>
+	
+	<!-- /channel_create should be called when the party starts
+	it generates a short lived channel key 
+	 -->
 	<servlet-mapping>
 		<servlet-name>ChannelCreate</servlet-name>
 		<url-pattern>/channel_create</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Channel</servlet-name>
-		<url-pattern>/channel</url-pattern>
-	</servlet-mapping>
+	
 
 	<servlet-mapping>
 		<servlet-name>SystemServiceServlet</servlet-name>
