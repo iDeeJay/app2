@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 @SuppressWarnings("serial")
 public class PartyCreateServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(ChannelCreateServlet.class.getName());
-	
+
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
@@ -31,12 +31,12 @@ public class PartyCreateServlet extends HttpServlet {
 		resp.getWriter().println("NOTHING");
 
 	}
-	
+
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/plain");
-		
+
 		String eventID = req.getParameter("event");
 		String throwerID = req.getParameter("throwerID");
 		String expiresStr = req.getParameter("expires");
@@ -48,11 +48,11 @@ public class PartyCreateServlet extends HttpServlet {
 			resp.getWriter().println("invalid date format");
 			return;
 		}
-		
+
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		
+
 		Key eventKey = KeyFactory.createKey("Event", eventID);
-		
+
 		Entity party;
 		try {
 			party = datastore.get(eventKey);
@@ -68,6 +68,6 @@ public class PartyCreateServlet extends HttpServlet {
 			resp.getWriter().println("OK");
 		}
 
-		
+
 	}
 }

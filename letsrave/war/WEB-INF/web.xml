@@ -26,6 +26,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-class>com.letsrave.UserPartiesServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>FilterEvents</servlet-name>
+		<servlet-class>com.letsrave.FilterEvents</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>UpadatePlaylist</servlet-name>
 		<servlet-class>com.letsrave.UpdatePlaylistServlet</servlet-class>
 	</servlet>
@@ -53,6 +57,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>UserParties</servlet-name>
 		<url-pattern>/user_parties</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FilterEvents</servlet-name>
+		<url-pattern>/filter_events</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Vote</servlet-name>

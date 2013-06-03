@@ -1,3 +1,4 @@
 /META-INF
 /com
 /log4j.properties
+/filter_events.class

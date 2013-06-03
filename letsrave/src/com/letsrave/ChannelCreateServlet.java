@@ -22,38 +22,38 @@ public class ChannelCreateServlet extends HttpServlet {
 
 	private static final Logger log = Logger.getLogger(ChannelCreateServlet.class.getName());
 	
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-    	
-    	resp.setContentType("text/plain");
-    	
-    	ChannelService channelService = ChannelServiceFactory.getChannelService();
-    	
-    	Boolean thrower = req.getParameter("thrower").compareTo("true")==0;
-    	String eventID = req.getParameter("event");
-    	String userID = req.getParameter("user");
-    	log.info(eventID);
-    	log.info(userID);
-    	
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+
+		resp.setContentType("text/plain");
+
+		ChannelService channelService = ChannelServiceFactory.getChannelService();
+
+		Boolean thrower = req.getParameter("thrower").compareTo("true")==0;
+		String eventID = req.getParameter("event");
+		String userID = req.getParameter("user");
+		log.info(eventID);
+		log.info(userID);
+
 		String userType;
 		if(thrower){
 			userType = "Thrower";
 		}else{
 			userType = "Goer";
 		}
-    	log.info(userType);
-    	
-    	String channel_key = userID+"#"+eventID;
-    	String token = channelService.createChannel(channel_key);
-    	log.info(token);
-    	
-    	DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    	
-    	Key eventKey = KeyFactory.createKey("Event", eventID);
-    	
-    	Key userFullKey = new KeyFactory.Builder(eventKey).addChild(userType, userID).getKey();
-    	
-    	Entity user;
+		log.info(userType);
+
+		String channel_key = userID+"#"+eventID;
+		String token = channelService.createChannel(channel_key);
+		log.info(token);
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+		Key eventKey = KeyFactory.createKey("Event", eventID);
+
+		Key userFullKey = new KeyFactory.Builder(eventKey).addChild(userType, userID).getKey();
+
+		Entity user;
 		try {
 			user = datastore.get(userFullKey);
 		} catch (EntityNotFoundException e) {
@@ -67,9 +67,9 @@ public class ChannelCreateServlet extends HttpServlet {
 		}
 
 		user.setProperty("channel_key", channel_key);
-	    datastore.put(user);
-    	
-        resp.getWriter().print(token);
+		datastore.put(user);
 
-    }
+		resp.getWriter().print(token);
+
+	}
 }
