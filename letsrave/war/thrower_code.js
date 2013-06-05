@@ -5,7 +5,7 @@ var channel;
 $(document).ready(function() {
 	$('#playlist_btn').click(function() {
 		var Content = $('code').text()
-		$.post("http://localhost:8888/channel", {
+		$.post("/channel", {
 			event : '100',
 			thrower : 'True',
 			content : Content
@@ -20,14 +20,14 @@ $(document).ready(function() {
 
 });
 
-function getToken() { // dostaje token i ¸ˆczy si« z odpowiednim channelem
+function getToken() { // dostaje token i ï¿½ï¿½czy siï¿½ z odpowiednim channelem
 	/*
 	 * var my_fbid; FB.api('/me', function(response) { console.log('Good to see
 	 * you, ' + response.name + '.'); my_fbid = response.id; });
 	 * 
 	 * http://letsravenow.appspot.com/channel_create
 	 */
-	$.get("http://localhost:8888/channel_create", {
+	$.get("/channel_create", {
 		event : '100',
 		fbid : '300',
 		thrower : 'True'

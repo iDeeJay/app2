@@ -6,9 +6,10 @@ $(document).ready(function() {
 	
 	$("#tokenButton").click(function() {
 	    getToken();
-	  }); 
+	  }); 	
 	
 });
+
 
 
 function generatePlaylistHTML(tracks){
@@ -28,15 +29,9 @@ function generatePlaylistHTML(tracks){
 function serveMsgFromServer(data) {
 	var html = generatePlaylistHTML(JSON.parse(data.data))
 	$("#playlist").html(html);
-	/*for(var i= 1; i<tracks.length; i++) {
-		$("#"+tracks[i]).click(function() {
-			sendNotification(this.id);
-		});
-	}*/
-	
 };
 
-function getToken() { // dostaje token i ¸ˆczy si« z odpowiednim channelem
+function getToken() { // dostaje token i ï¿½ï¿½czy siï¿½ z odpowiednim channelem
 	/*var my_fbid;
 	FB.api('/me', function(response) {
         console.log('Good to see you, ' + response.name + '.');
@@ -45,7 +40,7 @@ function getToken() { // dostaje token i ¸ˆczy si« z odpowiednim channelem
     
     http://letsravenow.appspot.com/channel_create
    */
-	$.get("http://localhost:8888/channel_create", {event:'100', fbid:'200', thrower:'False'} )
+	$.get("http://letsravenow.appspot.com/channel_create", {event:'100', fbid:'200', thrower:'False'} )
 	.done(function(token) {
 		$("#token").html(token);
 		channel = new goog.appengine.Channel(token);
