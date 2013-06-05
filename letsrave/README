@@ -1,0 +1,27 @@
+
+commit 1.04
+
+PartyGoer
+
+dodane:
+- sciaganie eventow z fb
+- filtrowanie ich pod katem parties
+- wyswietlanie ich
+- sciaganie playlisty zwiazanej z party
+- glosowanie (voty leca na server, tam sie wywala GAE, bo baza danych nie jest spojna)
+- zapamietywanie w localStorage votow
+- disablowanie przyciskow, jak juz kliknelismy
+- podswietlenie kliknietego
+- przycisk powrotu do partylist
+- ubieganie sie o token + zapisywanie go w localStorage
+- ciagniecie nowego jak wygasnie stary
+- tworzenie channela jesli juz mamy token (nie pobieramy nowego)
+- poprawienie wylgadu z tragicznego na wzglednie nietragiczny
+- poprawienie kilku bugów na GAE
+
+
+do zrobienia:
+- filtrowanie imprez pod katem tego czy przypadkiem ich nie byl i nie dalej niz 7 dni w przod
+- sprawdzic czy dziala dobrze isPartyStarting() i dobrze wydawane/zapisywane sa channele
+- zrobic wypisywanie partythrowera, narazie nie wiedzec czemu zapytanie zwraca undefined
+- responsive wyglad

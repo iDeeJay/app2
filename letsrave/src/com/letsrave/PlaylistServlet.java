@@ -32,7 +32,7 @@ public class PlaylistServlet extends HttpServlet {
 		try {
 			party = datastore.get(eventKey);
 			Text json = (Text) party.getProperty("json");
-			resp.getWriter().print( json.getValue() );
+			resp.getWriter().print(json.getValue());
 		} catch (EntityNotFoundException e) {
 			resp.getWriter().println("ERR party should be first created");
 		}

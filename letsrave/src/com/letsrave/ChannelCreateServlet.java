@@ -22,7 +22,7 @@ public class ChannelCreateServlet extends HttpServlet {
 
 	private static final Logger log = Logger.getLogger(ChannelCreateServlet.class.getName());
 	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 
 		resp.setContentType("text/plain");

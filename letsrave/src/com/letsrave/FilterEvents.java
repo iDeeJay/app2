@@ -21,12 +21,12 @@ public class FilterEvents extends HttpServlet {
 
 		resp.setContentType("text/plain");
 
-		String events = req.getParameter("event");
+		String events = req.getParameter("events");
 		String[] eventArr = events.split(",");
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Entity party;
-		for(String eventID : eventArr){
+		for(String eventID : eventArr) {
 			try {
 				party = datastore.get(KeyFactory.createKey("Event", eventID));
 				resp.getWriter().print(eventID + ",");
