@@ -29,20 +29,22 @@ public class ChannelCreateServlet extends HttpServlet {
 
 		ChannelService channelService = ChannelServiceFactory.getChannelService();
 
-		Boolean thrower = req.getParameter("thrower").compareTo("true")==0;
+		String throwerStr = My.getParam(req, resp,"thrower");
 		String eventID = My.getParam(req, resp, "event");
 		String userID =  My.getParam(req, resp, "user");
-		if(eventID==null || userID==null) return;
+		if(eventID==null || userID==null || throwerStr==null) return;
 		log.info(eventID);
 		log.info(userID);
 
 		String userType;
-		if(thrower){
+		if(throwerStr.compareTo("true")==0){
 			userType = "Thrower";
-		}else{
+		}else if(throwerStr.compareTo("false")==0){
 			userType = "Goer";
+		}else{
+			resp.getWriter().print("ERR thrower must be either 'true' or 'false'");
+			return;
 		}
-		log.info(userType);
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 

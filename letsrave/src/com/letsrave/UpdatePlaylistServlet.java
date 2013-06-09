@@ -39,8 +39,9 @@ public class UpdatePlaylistServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		
 		String eventID = My.getParam(req, resp, "event");
-		String playlistJSON = My.getParam(req, resp, "content");
-		if(eventID==null || playlistJSON==null) return;
+		String playlistJSON = My.getParam(req, resp, "json");
+		String uri = My.getParam(req, resp, "uri");
+		if(eventID==null || playlistJSON==null || uri==null) return;
 		
 		//Update the playlist in datastore
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -50,6 +51,7 @@ public class UpdatePlaylistServlet extends HttpServlet {
 		try {
 			party = datastore.get(eventKey);
 			party.setProperty("json", new Text(playlistJSON));
+			party.setProperty("playlistURI", uri);
 			datastore.put(party);
 		} catch (EntityNotFoundException e) {
 			resp.getWriter().println("ERR party should be first created");
