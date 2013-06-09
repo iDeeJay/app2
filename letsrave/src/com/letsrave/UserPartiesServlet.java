@@ -23,13 +23,18 @@ public class UserPartiesServlet extends HttpServlet {
 			throws IOException {
 		resp.setContentType("text/plain");
 		
-		String userID = req.getParameter("user");
-		Boolean thrower = req.getParameter("thrower").compareTo("true")==0;
+		String userID =  My.getParam(req,resp,"user");
+		String throwerStr =  My.getParam(req,resp,"thrower");
+		if(userID==null || throwerStr==null) return;
+		
 		String userType;
-		if(thrower){
+		if(throwerStr.compareTo("true")==0){
 			userType = "Thrower";
-		}else{
+		}else if(throwerStr.compareTo("false")==0){
 			userType = "Goer";
+		}else{
+			resp.getWriter().print("ERR thrower must be either 'true' or 'false'");
+			return;
 		}
 		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

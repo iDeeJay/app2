@@ -1,6 +1,7 @@
 package com.letsrave;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,13 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.Query;
 
 @SuppressWarnings("serial")
-public class PlaylistServlet extends HttpServlet {
+public class GetVotesServlet extends HttpServlet {
 	
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -25,18 +26,23 @@ public class PlaylistServlet extends HttpServlet {
 		
 		String eventID = My.getParam(req, resp, "event");
 		if(eventID==null) return;
-		
+			
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key eventKey = KeyFactory.createKey("Event", eventID);
 		
-		Entity party;
-		try {
-			party = datastore.get(eventKey);
-			Text json = (Text) party.getProperty("json");
-			String uri = (String) party.getProperty("playlistURI");
-			resp.getWriter().print("{\"uri\":\""+uri+"\", \"data\":\""+json.getValue()+"\"}");
-		} catch (EntityNotFoundException e) {
-			resp.getWriter().println("ERR party should be first created");
+		Query query = new Query("Vote", eventKey);
+		
+		List<Entity> votes = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(Constants.maxVotes));
+		
+		resp.getWriter().print("[");
+		for (Entity vote: votes){
+			String user = (String) vote.getProperty("userID");
+			String song = (String) vote.getProperty("song");
+			Boolean up = (Boolean) vote.getProperty("up");
+			
+			resp.getWriter().print(" {\"userID\":\""+user+"\", \"song\":\""+song+"\", \"up\":"+up.toString() +"},");
 		}
+		resp.getWriter().print(" \"\" ]");
 	}
+
 }

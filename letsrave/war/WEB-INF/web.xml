@@ -17,6 +17,10 @@
 		<servlet-class>com.letsrave.VoteServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>GetVotes</servlet-name>
+		<servlet-class>com.letsrave.GetVotesServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>UserParties</servlet-name>
 		<servlet-class>com.letsrave.UserPartiesServlet</servlet-class>
 	</servlet>
@@ -61,7 +65,10 @@
 		<servlet-name>Vote</servlet-name>
 		<url-pattern>/vote</url-pattern>
 	</servlet-mapping>
-
+	<servlet-mapping>
+		<servlet-name>GetVotes</servlet-name>
+		<url-pattern>/get_votes</url-pattern>
+	</servlet-mapping>
 	<!-- /channel_create should be called when the party starts
 	it generates a short lived channel key 
 	 -->

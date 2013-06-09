@@ -30,8 +30,9 @@ public class ChannelCreateServlet extends HttpServlet {
 		ChannelService channelService = ChannelServiceFactory.getChannelService();
 
 		Boolean thrower = req.getParameter("thrower").compareTo("true")==0;
-		String eventID = req.getParameter("event");
-		String userID = req.getParameter("user");
+		String eventID = My.getParam(req, resp, "event");
+		String userID =  My.getParam(req, resp, "user");
+		if(eventID==null || userID==null) return;
 		log.info(eventID);
 		log.info(userID);
 

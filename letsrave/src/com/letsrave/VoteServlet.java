@@ -42,11 +42,11 @@ public class VoteServlet extends HttpServlet {
 			throws IOException {
 		resp.setContentType("text/plain");
 		
-		String eventID = req.getParameter("event");
-		//log.info("Vote: event : "+eventID);
-		String userID = req.getParameter("user");
-		String song = req.getParameter("song");
-		String up = req.getParameter("up");
+		String eventID = My.getParam(req,resp,"event");
+		String userID = My.getParam(req,resp,"user");
+		String song = My.getParam(req,resp,"song");
+		String up = My.getParam(req,resp,"up");
+		if(eventID==null || userID==null || song==null || up==null) return;
 		
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Key eventKey = KeyFactory.createKey("Event", eventID);
@@ -64,11 +64,11 @@ public class VoteServlet extends HttpServlet {
 			return;
 		}
 		
-		ChannelService channelService = ChannelServiceFactory.getChannelService();
 		String channelKey = (String) thrower.getProperty("channelKey");
 		log.info(channelKey);
-		if(channelKey.length() > 0 ){
+		if(channelKey!=null && channelKey.length() > 0 ){
 			try {
+				ChannelService channelService = ChannelServiceFactory.getChannelService();
 				channelService.sendMessage(new ChannelMessage(channelKey,
 						"{\"user\":\""+userID+"\",\"song\":\""+song+"\",\"up\":"+up+"}"));
 				resp.getWriter().println("OK");
