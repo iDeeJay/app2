@@ -2,6 +2,7 @@ package com.letsrave;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ import com.google.appengine.api.datastore.Entity;
 
 @SuppressWarnings("serial")
 public class UpdatePlaylistServlet extends HttpServlet {
-	
+	private static final Logger log = Logger.getLogger(UpdatePlaylistServlet.class.getName());
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
@@ -39,9 +40,10 @@ public class UpdatePlaylistServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		
 		String eventID = My.getParam(req, resp, "event");
-		String playlistJSON = My.getParam(req, resp, "json");
-		String uri = My.getParam(req, resp, "uri");
+		String playlistJSON = req.getParameter("json");
+		String uri = req.getParameter("uri");
 		if(eventID==null || playlistJSON==null || uri==null) return;
+		
 		
 		//Update the playlist in datastore
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
