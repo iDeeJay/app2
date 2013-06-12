@@ -25,7 +25,7 @@ function login() {
 		} else {
 			// cancelled
 		}
-	});
+	}, {scope: 'user_events'});
 }
 
 
@@ -183,12 +183,14 @@ function disableVoteButtons(upOrDown, uri) {
 
 function generatePlaylistHTML(tracks){
 	var html = '';
-	
+	console.log(tracks);
+	tracks = tracks.data;
 	for(var i = 0; i<tracks.length; ++i) {
 		html += '<div class="song" id="track'+i+'"><div class="songInfo">';
 		html += '<div class="artist">'+tracks[i].artists[0].name;
 		html +=	'</div><div class="song-name">'+tracks[i].name+'</div></div>';
-		html +=	'<img class="cover" src="http://o.scdn.co/300/'+tracks[i].album.cover+'">';
+		var imgHref = tracks[i].album.cover
+		html +=	'<img class="cover" src="http://o.scdn.co/300/'+ imgHref.substring(14,imgHref.length) +'">';
 		html +=	'<div class=" btn-group vote">'
 			  + '<button id="' + tracks[i].uri + 'U" class="btn btn-inverse btn-small" onclick="vote(true, \'' 
 			  + tracks[i].uri +'\')">&#128077</button>';
@@ -256,7 +258,7 @@ function createChannel(token) {
 	var socket = channel.open();
 	socket.onopen = function() {};
 	socket.onmessage = serveMsgFromServer;
-	socket.onerror = getToken();
-	socket.onclose = getToken();
+	socket.onerror = function() {};
+	socket.onclose = function() {};
 }
 

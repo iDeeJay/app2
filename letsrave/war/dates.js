@@ -73,7 +73,7 @@ function isPartyStarting(hour, date) {
 	var m = parseInt(hour.split(':')[1]);
 	
 	var start = new Date(yyyy, mm, dd, h, m);
-	if (dates.compare(start, now) == 1)
+	if (dates.compare(start, now) == -1)
 		return true;
 	else
 		return false;
