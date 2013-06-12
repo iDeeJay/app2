@@ -37,7 +37,7 @@ function fillView(response) {
 				//welcome_msg
 				var welcome_msg_html = "<font color='white'><h1>";
 				welcome_msg_html += "Hello " + response.name + '!';
-				welcome_msg_html += "</font></h2>";
+				welcome_msg_html += "</h1><h4>Time to do some playlist shuffling</h4></font><";
 				$('#welcome_msg').html(welcome_msg_html);
 				localStorage.myId = response.id;
 				
@@ -50,6 +50,7 @@ function fillView(response) {
 					$.get('/filter_events', {events: event_list}, 
 							function(filtered_events) {
 								$('#partylist').html(generatePartylistHtml(filtered_events, response));
+								fillThrowers(filtered_events);
 							}
 					);
 				});
@@ -65,6 +66,21 @@ function fillView(response) {
 
 
 	$('#tokenButton').css("display","block");
+}
+
+function fillThrowers(partyList) {
+	var partyIdArray = partyList.split(",");
+	partyIdArray.forEach(function(id) {
+		if (id == "")
+			return;
+		else {
+			FB.api('/' + id + '?fields=owner', function(response) {
+				$('#thrower' + id).html(response.owner.name);
+				
+			})
+		}
+	});
+	
 }
 
 function generatePartylistHtml(partyList, eventInfo) {
@@ -98,6 +114,7 @@ function generatePartylistHtml(partyList, eventInfo) {
 
 
 function addPartylistRow(id, eventInfo) {
+
 	party = null
 	for(var i = 0; i<eventInfo.data.length; i++) {
 		if (eventInfo.data[i].id == id) {
@@ -106,16 +123,18 @@ function addPartylistRow(id, eventInfo) {
 		}
 	}
 	result = ""
+
 	result += "<tr>"
 	result += "<td>" + party.name + "</td>"
-	result += "<td>" + /*party.owner*/ "thrower" + "</td>"
+	result += "<td><div id='thrower" + party.id + "'>loading thrower...</div></td>"
 	result += "<td>" + getDate(party.start_time) + "</td>"
 	result += "<td style='padding: 14px;'>" + getHour(party.start_time) + "</td>"
 	result += "<td class='centered-td'>"
-			+ "<input type='button' onclick='showPlaylist(" + party.id + ", \"" + getHour(party.start_time) +
-			"\", \"" + getDate(party.start_time) + "\")' class='btn'" + "value='Show playlist'>"
-			+ "</td>"
+				+ "<input type='button' onclick='showPlaylist(" + party.id + ", \"" + getHour(party.start_time) +
+				"\", \"" + getDate(party.start_time) + "\")' class='btn'" + "value='Show playlist'>"
+				+ "</td>"
 	result += "</tr>"
+		
 	return result;
 }
 
@@ -123,15 +142,9 @@ function addPartylistRow(id, eventInfo) {
 function showPlaylist(id, hour, date) {
 	localStorage.actParty = id.toString();
 	
-	//channel stuff
-	if (localStorage[id+'token']) {
-		createChannel(localStorage[id+'token'])
-	} else {
-		if (isPartyStarting(hour, date)) {
-			getToken();
-		} 
-	}
-
+	if (isPartyStarting(hour, date)) {
+		getToken();
+	} 
 	
 	$.get("/playlist", {event : id.toString()}, function(playlist) {
 		if (playlist.substring(0,3) == "ERR") {
@@ -247,7 +260,7 @@ var channel;
 function getToken() { 
 	$.post("/channel_create", {event: localStorage.actParty, user: localStorage.myId, thrower: 'false'} )
 	.done(function(token) {
-		localStorage[localStorage.actParty + 'token'] = token;
+//		localStorage[localStorage.actParty + 'token'] = token;
 		createChannel(token);
 	});
 

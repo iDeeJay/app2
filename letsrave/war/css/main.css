@@ -18,6 +18,21 @@ background-image: url("../img/bg-area.jpg");
       
 }
 
+.sub-title {
+	margin-top:30px;
+	margin-bottom:30px;
+}
+
+.sub-left {
+   float: left;
+}
+.sub-right {
+   float: right;
+}
+.clear-both {
+   clear: both;
+}
+
 
 #my #track0{
 width: 80%;
