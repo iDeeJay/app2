@@ -64,8 +64,8 @@ public class VoteServlet extends HttpServlet {
 			return;
 		}
 		
-		String channelKey = (String) thrower.getProperty("channelKey");
-		log.info(channelKey);
+		String channelKey = (String) thrower.getProperty("channel_key");
+		resp.getWriter().println(channelKey);
 		if(channelKey!=null && channelKey.length() > 0 ){
 			try {
 				ChannelService channelService = ChannelServiceFactory.getChannelService();
@@ -73,7 +73,8 @@ public class VoteServlet extends HttpServlet {
 						"{\"user\":\""+userID+"\",\"song\":\""+song+"\",\"up\":"+up+"}"));
 				resp.getWriter().println("OK");
 				return;
-			} catch (ChannelFailureException e) { log.info("send msg to "+thrower.getProperty("userID")+"failed"); }	
+			} catch (ChannelFailureException e) { 
+				resp.getWriter().println("ERR send msg to "+thrower.getProperty("userID")+"failed"); return;}	
 		}
 		//if we are here it means that either channelKey == 0 or exception happend
 		//store temporarily the vote

@@ -65,7 +65,7 @@ public class ChannelCreateServlet extends HttpServlet {
 			}
 		}
 
-		String channel_key = userID+"#"+eventID;
+		String channel_key = userID+"#"+eventID+userType.substring(0,2);
 		String token = channelService.createChannel(channel_key);
 		log.info(token);
 

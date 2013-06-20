@@ -16,6 +16,7 @@ window.fbAsyncInit = function() {
 		);
 };
 
+'use strict';
 
 function login() {
 	FB.login(function(response) {
@@ -35,22 +36,21 @@ function fillView(response) {
 		if (response.status === 'connected') {
 			FB.api('/me', function(response) {
 				//welcome_msg
-				var welcome_msg_html = "<font color='white'><h1>";
-				welcome_msg_html += "Hello " + response.name + '!';
-				welcome_msg_html += "</h1><h4>Time to do some playlist shuffling</h4></font><";
+				var welcome_msg_html = "<h2>Hi " + response.first_name + '!';
+				welcome_msg_html += "</h2><h4>Time to do some playlist shuffling</h4>";
 				$('#welcome_msg').html(welcome_msg_html);
 				localStorage.myId = response.id;
 				
 				FB.api('/me/events', function(response) {
-					var event_list = ""
+					var event_list = "";
 					for(var i = 0; i<response.data.length; i++) {
-						event_list += response.data[i].id
-						event_list += ","
+						event_list += response.data[i].id + ",";
 					}
 					$.get('/filter_events', {events: event_list}, 
 							function(filtered_events) {
 								$('#partylist').html(generatePartylistHtml(filtered_events, response));
 								fillThrowers(filtered_events);
+								$('#partylist').show();
 							}
 					);
 				});
@@ -68,6 +68,7 @@ function fillView(response) {
 	$('#tokenButton').css("display","block");
 }
 
+//REWRITE USING SINGLE FQL
 function fillThrowers(partyList) {
 	var partyIdArray = partyList.split(",");
 	partyIdArray.forEach(function(id) {
@@ -84,71 +85,55 @@ function fillThrowers(partyList) {
 }
 
 function generatePartylistHtml(partyList, eventInfo) {
-	var result = "<div class='container'>" 
-	result += "<font color='white'>"
-	partyIdArray = partyList.split(",");
+	var result = "";
+	var partyIdArray = partyList.split(",");
 	if (partyIdArray.length == 0) {
 		result += "<h2>You have no incoming parties? Throw your own!</h2>"
 	} else {
-		result += "<h2>Your parties:</h2>"
-		result += "<table class='table'><thead>"
-		result += "<tr>"
-		result += "<th>Party name</th>"
-		result += "<th>Party thrower</th>"
-		result += "<th>Date</th>"
-		result += "<th>Starts at</th>"
-		result += "<th></th>"
-		result += "</tr></thead><tbody>"	
+		result += "<h2>Your parties, choose one:</h2>";
+		result += "<div id='list'>";
 		partyIdArray.forEach(function(id) {
-			if (id == "")
-				return;
-			else
-				result += addPartylistRow(id, eventInfo);
+			if (id == "") return;
+			else result += addPartylistRow(id, eventInfo);
 		});
-		result += "</table></tbody>"
-	}
-	result += "</font></div>" 
+		result += "</div>";
+	} 
 	return result;
 }
 
 
-
 function addPartylistRow(id, eventInfo) {
-
-	party = null
+	var party = null
 	for(var i = 0; i<eventInfo.data.length; i++) {
 		if (eventInfo.data[i].id == id) {
 			party = eventInfo.data[i]
 			break
 		}
 	}
-	result = ""
 
-	result += "<tr>"
-	result += "<td>" + party.name + "</td>"
-	result += "<td><div id='thrower" + party.id + "'>loading thrower...</div></td>"
-	result += "<td>" + getDate(party.start_time) + "</td>"
-	result += "<td style='padding: 14px;'>" + getHour(party.start_time) + "</td>"
-	result += "<td class='centered-td'>"
-				+ "<input type='button' onclick='showPlaylist(" + party.id + ", \"" + getHour(party.start_time) +
-				"\", \"" + getDate(party.start_time) + "\")' class='btn'" + "value='Show playlist'>"
-				+ "</td>"
-	result += "</tr>"
+	var result = "<button class='btn btn-inverse' onclick='showPlaylist(" + party.id + ", \"" + getHour(party.start_time) +
+				"\", \"" + getDate(party.start_time) + "\")'>"
+	result += '<div class="party_name">'
+	result += "<h4>" + party.name + "</h4>"
+	result += "by <span id='thrower" + party.id + "'>loading thrower...</span></div>"
+	result += "<div class='party_date'>at " + getHour(party.start_time) +'<br> '+ getDate(party.start_time) + '</div>'
+	result += "</button>"
 		
 	return result;
 }
 
 
 function showPlaylist(id, hour, date) {
+	$('#splashScreen').hide();
+	
 	localStorage.actParty = id.toString();
 	
-	if (isPartyStarting(hour, date)) {
+	if (isPartyStarting(hour, date))
 		getToken();
-	} 
 	
 	$.get("/playlist", {event : id.toString()}, function(playlist) {
 		if (playlist.substring(0,3) == "ERR") {
-			$('#playlist').html("<font color='white'>There is no such a party! </font>");
+			$('#playlist').html("There is no such a party!");
 		} else {
 			var playlist_html = generatePlaylistHTML(JSON.parse(playlist));
 			$('#playlist').html(playlist_html);	
@@ -190,14 +175,11 @@ function disableVoteButtons(upOrDown, uri) {
 	ref.parentNode.insertBefore(js, ref);
 }(document));
 
-'use strict';
-
-
 
 function generatePlaylistHTML(tracks){
 	var html = '';
 	console.log(tracks);
-	tracks = tracks.data;
+	if(tracks.data != undefined ) tracks = tracks.data;
 	for(var i = 0; i<tracks.length; ++i) {
 		html += '<div class="song" id="track'+i+'"><div class="songInfo">';
 		html += '<div class="artist">'+tracks[i].artists[0].name;
@@ -220,7 +202,8 @@ function generatePlaylistHTML(tracks){
 
 function vote(up, uri) {
 	$.post("/vote", {event: localStorage.actParty, user: localStorage.myId, 
-					song: uri, up: up.toString()}).always(function() {				
+					song: uri, up: up.toString()})
+	.always(function() {				
 		
 		var upOrDown = 'U'
 		if (!up)
@@ -231,7 +214,6 @@ function vote(up, uri) {
 						
 		// notifying local storage about votes
 		saveVote(upOrDown, uri);
-		
 	});
 }
 
@@ -260,7 +242,6 @@ var channel;
 function getToken() { 
 	$.post("/channel_create", {event: localStorage.actParty, user: localStorage.myId, thrower: 'false'} )
 	.done(function(token) {
-//		localStorage[localStorage.actParty + 'token'] = token;
 		createChannel(token);
 	});
 

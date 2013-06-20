@@ -5,10 +5,9 @@
         <title>Partygoer App</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width" initial-scale=1.0>
-        <link href="css/bootstrap-responsive.css" rel="stylesheet">
         
 		<link rel="stylesheet"  type="text/css" href="css/main.css">
-        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap.min.css" rel="stylesheet" >
         
         <!-- libs -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -20,26 +19,24 @@
     <body id="my">
     <div id="fb-root"></div>
 
-	<div id="splashScreen" class="container">
-    <img src="img/logo.png">
-    <div class="sub-title">
-    	<div id="welcome_msg" class="sub-left">
-    		<font color='white'><h1>Welcome to PartyDog!</h1><h3>Login using your facebook account</h3></font>
+	<div id="splashScreen">
+    	<img id="logo" src="img/logo-medium.png">
+    	<div id="welcome_msg">
+			<p>Your friend, who is throwing a party, made a&nbsp;Spotify playlist interactive.</p>
+			<p>You can have your say and vote on&nbsp;songs, the&nbsp;playlist will update!</p> 
+    		
+    		<h3>To vote login with your facebook&nbsp;account:</h3>
+    		<div class="fb-login-button" scope="user_events" size="xlarge"></div>
     	</div>
-
-    	<div class="fb-login-button sub-right" data-show-faces="true" data-width="200" data-max-rows="1"></div>
-		<div class="clear-both"></div>
-	</div>
 	
-	
-	<div id="partylist">
-	<h2><br>Loading parties...</h2>
-	</div>	
+		<div id="partylist" style="display:none">
+			<h2><br>Loading parties...</h2>
+		</div>	
 	</div>
 	
     <div id="playlist"></div>
 	
-    <footer>Michał Duczyński, Paweł Sienkowski, Wojtek Marczenko, Michał Bukowski, All rights reserved.</footer>
+    <footer>Michał&nbsp;Duczyński, Paweł&nbsp;Sienkowski, Wojtek&nbsp;Marczenko, Michał&nbsp;Bukowski, All rights reserved.</footer>
     
     </body>
 </html>

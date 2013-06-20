@@ -68,7 +68,7 @@ public class UpdatePlaylistServlet extends HttpServlet {
 		List<Entity> goers = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(Constants.maxGoers));
 		
 		for (Entity goer: goers){
-			String channel_key = (String) goer.getProperty("channelKey");
+			String channel_key = (String) goer.getProperty("channel_key");
 			if(channel_key!=null && channel_key.length() > 0)
 				channelService.sendMessage(new ChannelMessage(channel_key,playlistJSON));
 		}

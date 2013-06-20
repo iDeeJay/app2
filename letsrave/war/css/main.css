@@ -7,30 +7,68 @@
 	     url('../fonts/entypo.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Alegreya'), local('Alegreya-Regular'), url(http://themes.googleusercontent.com/static/fonts/alegreya/v4/MYFQxfgoxFvFirdbdLj3M3YhjbSpvc47ee6xR_80Hnw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Alegreya Italic'), local('Alegreya-Italic'), url(http://themes.googleusercontent.com/static/fonts/alegreya/v4/Q-XbT1m22Fi9BEKb7y59O73hpw3pgy2gAi-Ip7WPMi0.woff) format('woff');
+}
 
-
-body{
+body#my{
 background-image: url("../img/bg-area.jpg");
+color: #fff;
 }
 
-.centered-td {
-   text-align: center !important;
-      
+
+#my h1, #my h2, #my h3, #my h4 {
+font-weight: 400;
+font-family:Alegreya;
 }
 
-.sub-title {
+#splashScreen{
+width: 90%;
+margin-left: auto;
+margin-right: auto;
+}
+
+#partylist button{
+	width:100%;
+	padding-bottom: 1.5em;
+}
+
+#partylist button .party_name {
+display: inline-block;
+max-width: 75%;
+}
+#partylist button .party_date {
+display: inline-block;
+margin-left: 30px;
+vertical-align: top;
+margin-top: 1em;
+}
+
+#logo {
+max-width: 400px;
+width: 100%;
+}
+
+#welcome_msg {
 	margin-top:30px;
 	margin-bottom:30px;
+	text-align:center;
 }
 
-.sub-left {
-   float: left;
-}
-.sub-right {
-   float: right;
-}
-.clear-both {
-   clear: both;
+#welcome_msg p{
+	font-size: 17.5px;
+	font-family:Alegreya;
+	font-weight:400;
+	margin-bottom: 0.5em;
 }
 
 
@@ -87,52 +125,9 @@ font-size: 24pt;
 padding-top: 0.3em;
 padding-bottom: 0.3em;
 }
-@media only screen and (max-width: 800px) {
-	
-	/* Force table to not be like tables anymore */
-	#no-more-tables table, 
-	#no-more-tables thead, 
-	#no-more-tables tbody, 
-	#no-more-tables th, 
-	#no-more-tables td, 
-	#no-more-tables tr { 
-		display: block; 
-	}
- 
-	/* Hide table headers (but not display: none;, for accessibility) */
-	#no-more-tables thead tr { 
-		position: absolute;
-		top: -9999px;
-		left: -9999px;
-	}
- 
-	#no-more-tables tr { border: 1px solid #ccc; }
- 
-	#no-more-tables td { 
-		/* Behave  like a "row" */
-		border: none;
-		border-bottom: 1px solid #eee; 
-		position: relative;
-		padding-left: 50%; 
-		white-space: normal;
-		text-align:left;
-	}
- 
-	#no-more-tables td:before { 
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 6px;
-		left: 6px;
-		width: 45%; 
-		padding-right: 10px; 
-		white-space: nowrap;
-		text-align:left;
-		font-weight: bold;
-	}
- 
-	/*
-	Label the data
-	*/
-	#no-more-tables td:before { content: attr(data-title); }
+
+#my footer{
+text-align: center;
+margin-top: 50px;
+color: #777;
 }
