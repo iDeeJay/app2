@@ -42,7 +42,8 @@ public class UpdatePlaylistServlet extends HttpServlet {
 		String eventID = My.getParam(req, resp, "event");
 		String playlistJSON = req.getParameter("json");
 		String uri = req.getParameter("uri");
-		if(eventID==null || playlistJSON==null || uri==null) return;
+		String offset = req.getParameter("offset");
+		if(eventID==null || playlistJSON==null || uri==null || offset==null) return;
 		
 		
 		//Update the playlist in datastore
@@ -54,6 +55,7 @@ public class UpdatePlaylistServlet extends HttpServlet {
 			party = datastore.get(eventKey);
 			party.setProperty("json", new Text(playlistJSON));
 			party.setProperty("playlistURI", uri);
+			party.setProperty("offset", offset);
 			datastore.put(party);
 		} catch (EntityNotFoundException e) {
 			resp.getWriter().println("ERR party should be first created");
@@ -70,7 +72,8 @@ public class UpdatePlaylistServlet extends HttpServlet {
 		for (Entity goer: goers){
 			String channel_key = (String) goer.getProperty("channel_key");
 			if(channel_key!=null && channel_key.length() > 0)
-				channelService.sendMessage(new ChannelMessage(channel_key,playlistJSON));
+				channelService.sendMessage(new ChannelMessage(channel_key,
+						"{\"uri\":\""+uri+"\", \"offset\":\"" +offset+ "\", \"data\":"+playlistJSON+"}"));
 		}
 
 		resp.getWriter().println("OK");

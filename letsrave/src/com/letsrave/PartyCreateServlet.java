@@ -63,6 +63,7 @@ public class PartyCreateServlet extends HttpServlet {
 			party.setProperty("expires", expires);
 			party.setProperty("json", new Text("[]") );
 			party.setProperty("playlistURI", "");
+			party.setProperty("offset", "0");
 			datastore.put(party);
 			
 			Entity thrower = new Entity("Thrower", throwerID, eventKey);

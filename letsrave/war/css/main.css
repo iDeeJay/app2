@@ -35,6 +35,7 @@ font-family:Alegreya;
 width: 90%;
 margin-left: auto;
 margin-right: auto;
+text-align:center;
 }
 
 #partylist button{
@@ -44,7 +45,7 @@ margin-right: auto;
 
 #partylist button .party_name {
 display: inline-block;
-max-width: 75%;
+max-width: 60%;
 }
 #partylist button .party_date {
 display: inline-block;
@@ -72,7 +73,7 @@ width: 100%;
 }
 
 
-#my #track0{
+#my div.playing{
 width: 80%;
 margin-left: auto;
 margin-right: auto;

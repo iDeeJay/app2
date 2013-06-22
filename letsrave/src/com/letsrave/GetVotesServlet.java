@@ -41,6 +41,8 @@ public class GetVotesServlet extends HttpServlet {
 			Boolean up = (Boolean) vote.getProperty("up");
 			
 			resp.getWriter().print(" {\"userID\":\""+user+"\", \"song\":\""+song+"\", \"up\":"+up.toString() +"},");
+			
+			datastore.delete(vote.getKey());
 		}
 		resp.getWriter().print(" \"\" ]");
 	}

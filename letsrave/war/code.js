@@ -10,25 +10,11 @@ window.fbAsyncInit = function() {
 	});
 	
 	FB.Event.subscribe('auth.statusChange',
-		    function(response) {
-		        fillView(response);
-		    }
-		);
+		function(response) { fillView(response); }
+	);
 };
 
 'use strict';
-
-function login() {
-	FB.login(function(response) {
-		if (response.authResponse) {
-			testAPI();
-			
-		} else {
-			// cancelled
-		}
-	}, {scope: 'user_events'});
-}
-
 
 function fillView(response) {
 	//fills mainpage with personalised data
@@ -90,7 +76,7 @@ function generatePartylistHtml(partyList, eventInfo) {
 	if (partyIdArray.length == 0) {
 		result += "<h2>You have no incoming parties? Throw your own!</h2>"
 	} else {
-		result += "<h2>Your parties, choose one:</h2>";
+		result += "<h2>Your&nbsp;parties, choose&nbsp;one:</h2>";
 		result += "<div id='list'>";
 		partyIdArray.forEach(function(id) {
 			if (id == "") return;
@@ -176,12 +162,17 @@ function disableVoteButtons(upOrDown, uri) {
 }(document));
 
 
-function generatePlaylistHTML(tracks){
+function generatePlaylistHTML(playlist){
 	var html = '';
-	console.log(tracks);
-	if(tracks.data != undefined ) tracks = tracks.data;
-	for(var i = 0; i<tracks.length; ++i) {
-		html += '<div class="song" id="track'+i+'"><div class="songInfo">';
+	console.log(playlist);
+	tracks = playlist.data;
+	var offset = parseInt(playlist.offset);
+	
+	for(var i = offset; i<tracks.length; ++i) {
+		if(i == offset)
+			html += '<div class="song playing" id="track'+i+'"><div class="songInfo">';
+		else
+			html += '<div class="song" id="track'+i+'"><div class="songInfo">';
 		html += '<div class="artist">'+tracks[i].artists[0].name;
 		html +=	'</div><div class="song-name">'+tracks[i].name+'</div></div>';
 		var imgHref = tracks[i].album.cover
